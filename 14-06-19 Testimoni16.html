@@ -1,0 +1,131 @@
+<html>
+<head>
+<Title>Testimoni16</Title
+<style type="text/css">
+	#home{
+		top:1px;
+		position:absolute;
+		left:50%;
+	}
+	#pList{
+		border:1px solid black;
+		display: none;
+		position:static;
+		left:15px;
+		top:10px;
+	}
+</style>
+<!-- <link rel="stylesheet" style="text/css" href="bg.css"/> -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
+<script>
+$(document).ready(function(){
+	$("#pList_butt").click(function(){
+		$("#pList").toggle(350);
+	});
+});
+</script>
+<script type="text/javascript">
+var music = new Array(
+"/audio/01YerzmyeyWhy.mp3",
+"/audio/03MegusAutumnIsCalling.mp3",
+"/audio/08SchalasTheme.mp3",
+"/audio/10YerzmyeyNewSound.mp3",
+"/audio/12Factor6Gianna.mp3",
+"/audio/15PsychoVideo.mp3",
+"/audio/33Outside.mp3",
+"/audio/atrx1fatalintrigue.mp3",
+"/audio/atrx2finalodyssey.mp3",
+"/audio/atrx3warcloudshangheavy.mp3",
+"/audio/atrx4takeuparms.mp3",
+"/audio/atrx5truthofbellum.mp3",
+"/audio/atrx6wartrophy.mp3"
+);
+var names = new Array(
+"Why",
+"Autumn is Calling",
+"Schala's Theme",
+"New Sound",
+"Gianna",
+"Video",
+"Outside",
+"Fatal Intrigue",
+"Final Odyssey",
+"War Clouds Hang Heavy",
+"Take Up Arms",
+"Truth of Bellum",
+"War Trophy"
+);
+var playing = 0;
+
+function mPlay(){
+	document.getElementById("tP").innerHTML = "<embed id=\"cathy\" src=\"" + music[playing] + "\" hidden=\"true\"" +
+"autostart=\"true\"" + "loop=\"false\" /><marquee scrollamount=\"3\" style=\"width:200px;\" behaviour=\"scroll\" direction=\"left\">" + names[playing] + "</marquee>";
+	var num = "num_" + playing;
+	var currp = document.getElementById(num);
+	currp.style.backgroundColor = "#000";
+	currp.style.color = "#fff";
+}
+function mStop(){
+	returnColor();
+	document.getElementById("tP").innerHTML = "";
+}
+function mNext(){
+	returnColor();
+	playing = ((playing+1)>=music.length?0:(playing+1));
+	mPlay();
+}
+function mPrev(){
+	returnColor();
+	playing = ((playing-1)<0?(music.length-1):(playing-1));
+	mPlay();
+}
+
+ function drawPlaylist(){
+	for(i = 0; i < music.length; i++){
+		$('#pList').append('<span id="num_' + i + '" onMouseOut="this.style.backgroundColor=\'transparent\';this.style.color=\'#000\';" onMouseOver="this.style.backgroundColor=\'gray\';this.style.color=\'#fff\'" onClick="play(' + i + ')">' + names[i] + '</span><br/>');
+	}
+	var a = document.getElementById("pList");
+	a.style.width = "200px"; //width of the playlist
+	a.style.height= (music.length * 20) + "px";
+ }
+ function play(x){
+	returnColor()
+	playing = x;
+	mPlay();
+ }
+ function returnColor(){
+	var num = "num_" + playing;
+	var currp = document.getElementById(num);
+	currp.style.backgroundColor = "transparent";
+	currp.style.color = "#000";
+}
+</script>
+</head>
+
+<body>
+<a id="home" href="/">home</a>
+<button onClick="mPrev();">
+<< <!-- previous -->
+</button>
+<button onClick="mPlay();">
+| > <!-- play -->
+</button>
+<button onClick="mStop();">
+[&nbsp; ] <!-- stop -->
+</button>
+<button onClick="mNext();">
+>> <!-- next -->
+</button>
+<button id="pList_butt">
+Playlist
+</button>
+<br/><span id="tP"></span>
+<div id="pList">
+
+</div>
+<script type="text/javascript">
+drawPlaylist();
+mPlay();
+</script>
+</body>
+</html>

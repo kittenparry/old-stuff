@@ -1,0 +1,41 @@
+<html>
+<head>
+<script type="text/javascript">
+	function bin(x){
+		var y = "";
+		while(x!=0){
+			y+=(x%2);
+			if(x%2!=0){
+				x/=2;
+				x-=0.5;
+			}else{
+				x/=2;
+			}
+		}
+		return y;
+	}
+	//
+	function rev(u){
+		var p = "";
+		for(h=1;h<=u.length;h++){
+			var t = u.length - h;
+			if(u.indexOf("1",t)==t){
+				p+=1;
+			}else{
+				p+=0;
+			}
+		}
+		return p;
+	}
+	//
+</script>
+</head>
+<body>
+<script type="text/javascript">
+	var numy = prompt("Enter your number:", "");
+	var k = bin(numy);
+	var z = rev(k); //rev stands for 'reverse'.
+	document.write("Binary of " + numy + " is " + z + ".");
+</script>
+</body>
+</html>

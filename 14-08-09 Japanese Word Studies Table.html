@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Japanese Word Studies</title>
+<!--
+	japanese word studies table.
+	10 august 2014 ce.
+	//
+	>>INSTRUCTIONS
+	# copy the code to your text editor and save it as .html
+	# open the file with your favorite browser
+	# ???
+	# profit.
+	//
+	> update 10 august:
+	#-"show/hide all" button added
+	#-changed color of table header
+	> update 12 august.
+	#-got rid of useless repetitive code
+	# and put them inside of a one function
+	# by doing so, saved 3.24 kb in the process
+	> update 12 august.
+	#-added 36 more words
+	# (8 adjectives, 22 nouns, 6 verbs)
+	#-added a scroller
+	#-changed the name of the project
+	# from "adjective" to "word" studies
+	> update 14 august.
+	#-added 32 more words
+	# (8 nouns, 8 verbs, 7 particles, 9 question words)
+-->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
+<style type="text/css">
+.sps{visibility:hidden;}
+body{position:absolute;left:45%;}
+</style>
+</head>
+<body>
+<div style="overflow-y:scroll; height:500px;">
+<table id="adjtable" border="1">
+<script type="text/javascript">
+	var wordCount = new Array();
+	wordCount["Adjective"]= 25;
+	wordCount["Noun"]= 30;
+	wordCount["Verb"]= 14;
+	wordCount["Particle"]= 7;
+	wordCount["Question"]= 9;
+	//25 adj
+	var Eng = new Array("new", "hot", "sweet", "good", "painful", "delicious",
+	"big", "interesting/funny", "cute", "pretty", "stinky", "quiet",
+	"tall/expensive", "small", "draft/raw", "early/fast", "awful", "old",
+	"nasty tasting", "difficult", "kind", "cheap", "drunk", "young", "bad",
+	//30 nouns
+	"love", "squid", "dog", "up", "horse", "pencil", "weather", "tree", "cloud/spider",
+	"class", "car", "teacher", "food", "father", "toilet", "cat", "mother", "fire/sun",
+	"person", "left", "book", "ship", "beer", "party", "circle", "right", "water",
+	"thing", "apple", "dragon",
+	//14 verbs
+	"to go", "to teach", "to cut/wear", "to know", "to sit", "to do", "not to be",
+	"to eat", "to stand", "to build/create/make", "to be", "to drink", "to ride",
+	"to understand",
+	//7 particles
+	"object p.", "question p.", "subject p.", "location p.", "possession p.",
+	"comparison p.", "topic p.",
+	//9 question words
+	"when", "how many", "how much", "who", "how", "where", "which", "what", "why"
+	);
+	var Jpn = new Array("atarashii", "atsui", "amai", "ii", "itai", "oishii",
+	"ookii", "omoshiroi", "kawaii", "kirei", "kusai", "shizuka", "takai", "chiisai",
+	"nama", "hayai", "hidoi", "hurui", "mazui", "muzukashii", "yasashii", "yasui",
+	"yaporai", "wakai", "warui",
+	//
+	"ai", "ika", "inu", "ue", "umo", "enpitsu", "otenki", "ki", "kumo", "kurasu",
+	"kuruma", "sensei", "tabemono", "chichi/papa", "toire", "neko", "haha/papa", "hi",
+	"hito", "hidari", "hon", "hune", "biiru", "paatii", "maru", "migi", "mizu", "mono",
+	"ringo", "ryuu",
+	//
+	"iku", "oshieru", "kiru", "shiru", "suwaru", "suru", "janai", "taberu", "tatsu",
+	"tsukuru", "desu", "nomu", "noru", "wakaru",
+	//
+	"o (wo)", "ka", "ga", "ni", "no", "rori", "wa (ha)",
+	//
+	"itsu", "ikutsu", "ikura", "dare", "dou", "doko", "dore", "nani/nan", "naze"
+	);
+	revVal = false;
+	allShown = false;
+	function rev(){
+		if(allShown){
+			if(revVal){
+				drawTable(false, Jpn, Eng, "Japanese", "English");
+				revVal = false;
+			}else{
+				drawTable(false, Eng, Jpn, "English", "Japanese");
+				revVal = true;
+			}
+		}else{
+			if(revVal){
+				drawTable(true, Jpn, Eng, "Japanese", "English");
+				revVal = false;
+			}else{
+				drawTable(true, Eng, Jpn, "English", "Japanese");
+				revVal = true;
+			}
+		}
+	}
+	function showAll(){
+		if(allShown){
+			if(revVal)
+				drawTable(true, Eng, Jpn, "English", "Japanese");
+			else
+				drawTable(true, Jpn, Eng, "Japanese", "English");
+			allShown = false;
+			document.getElementById("showbutt").innerHTML="Show All";
+		}else{
+			if(revVal)
+				drawTable(false, Eng, Jpn, "English", "Japanese");
+			else
+				drawTable(false, Jpn, Eng, "Japanese", "English");
+			allShown = true;
+			document.getElementById("showbutt").innerHTML="Hide All";
+		}
+	}
+	//con = not shown
+	function drawTable(con, firstarray, secondarray, fheader, sheader){
+		var c = 0;
+		document.getElementById("adjtable").innerHTML = "";
+		drawHeader("099", "fff", "Japanese Word Studies");
+		drawRest(0, fheader, sheader);
+		drawHeader("ADFF2F", "008000", "Adjectives");
+		if(con){
+			for(x=0;x<wordCount["Adjective"];x++){
+				drawLines(true, firstarray, secondarray, c);
+				c++;}
+			drawHeader("FFC0CB", "FF69B4", "Nouns");
+			for(x=0;x<wordCount["Noun"];x++){
+				drawLines(true, firstarray, secondarray, c);
+				c++;}
+			drawHeader("FFA500", "FF4500", "Verbs");
+			for(x=0;x<wordCount["Verb"];x++){
+				drawLines(true, firstarray, secondarray, c);
+				c++;}
+			drawHeader("306", "3C6", "Particles");
+			for(x=0;x<wordCount["Particle"];x++){
+				drawLines(true, firstarray, secondarray, c);
+				c++;}
+			drawHeader("900", "CC0", "Question Words");
+			for(x=0;x<wordCount["Question"];x++){
+				drawLines(true, firstarray, secondarray, c);
+				c++;}
+		}else{
+			for(x=0;x<wordCount["Adjective"];x++){
+				drawLines(false, firstarray, secondarray, c);
+				c++;}
+			drawHeader("FFC0CB", "FF69B4", "Nouns");
+			for(x=0;x<wordCount["Noun"];x++){
+				drawLines(false, firstarray, secondarray, c);
+				c++;}
+			drawHeader("FFA500", "FF4500", "Verbs");
+			for(x=0;x<wordCount["Verb"];x++){
+				drawLines(false, firstarray, secondarray, c);
+				c++;}
+			drawHeader("306", "3C6", "Particles");
+			for(x=0;x<wordCount["Particle"];x++){
+				drawLines(false, firstarray, secondarray, c);
+				c++;}
+			drawHeader("900", "CC0", "Question Words");
+			for(x=0;x<wordCount["Question"];x++){
+				drawLines(false, firstarray, secondarray, c);
+				c++;}
+		}
+		drawRest(1, fheader, sheader);
+	}
+	function drawLines(con, farray, sarray, cou){
+		if(con)
+			$('#adjtable').append('<tr><td>'+ farray[cou] +'</td><td onMouseOver="document.getElementById(\'sp_' + cou + '\').style.visibility=\'visible\'" onMouseOut="getElementById(\'sp_' + cou + '\').style.visibility=\'hidden\'"><span class="sps" id="sp_'+ cou + '">'+ sarray[cou] +'</span></td></tr>');
+		else
+			$('#adjtable').append('<tr><td>'+ farray[cou] +'</td><td>'+ sarray[cou] +'</td></tr>');
+	}
+	function drawHeader(bgcol, txtcol, head){
+		$('#adjtable').append('<tr><th colspan="2" style="background-color:#'+ bgcol +'; color:#'+ txtcol +';">'+ head +'</th></tr>');
+	}
+	function drawRest(con, fhead, shead){
+		if(con == 0)
+			$('#adjtable').append('<tr><td><i>' + fhead + '</i></td><td><i>' + shead + '</i></td></tr>');
+		else
+			$('#adjtable').append('<tr><td colspan="2"><font size="2">Hover over to show meaning.</font></td></tr>');
+	}
+	drawTable(true, Jpn, Eng, "Japanese", "English");
+</script>
+</table></div>
+<table id="bottable" style="width:225px" border="1"><tr><td colspan="2"><font size="2">Hover over to show meaning.</font></td></tr></table><center><button onClick="rev();">Reverse</button><button id="showbutt" onClick="showAll();">Show All</button></center>
+</body>
+</html>

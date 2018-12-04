@@ -1,0 +1,70 @@
+<html>
+<head>
+<Title>Testimoni2</Title>
+<!--
+	basic math test.
+	4 april 2014 ce.
+	//
+	# quickchanges *30 april 2014
+	#-value reset of textbox after clicking 'click'
+	#-select all when clicked on textbox
+-->
+<script type="text/javascript">
+	var fir = 0;
+	var sec = 0;
+	var op = new Array("plus", "minus");
+	var ans = 1;
+	var ops = op[0];
+	var first = false;
+	function test(){
+		fir = Math.ceil(Math.random()*100);
+		sec = Math.ceil(Math.random()*100);
+		ops = op[Math.floor(Math.random()*2)];
+		switch(ops){
+			case "plus":
+				document.getElementById("q").innerHTML = fir + " + " + sec + " = ?"
+				ans = fir + sec;
+				break;
+			case "minus":
+				document.getElementById("q").innerHTML = fir + " - " + sec + " = ?"
+				ans = fir - sec;
+				break;
+			default:
+				break;
+		}
+		first = true;
+	}
+	//
+	var rights = 0;
+	var wrongs = 0;
+	function checkAns(){
+		if(first == false){
+			document.getElementById("pop").innerHTML = "first click 'question'";
+		}else if(document.getElementById("tAns").value == ""){
+			document.getElementById("pop").innerHTML = "write something";
+		}else{
+			var x = document.getElementById("tAns").value;
+			var y = ans;
+			if(x == y){
+				document.getElementById("pop").innerHTML = ans + " is the correct answer. good one";
+				rights++;
+				test();
+			}else{
+				document.getElementById("pop").innerHTML = "nahh";
+				wrongs++;
+			}
+			document.getElementById("scores").innerHTML = rights + " rights | " + wrongs + " wrongs";
+			document.getElementById("tAns").value = "";
+		}
+	}
+</script>
+</head>
+<body>
+	<p id="q"></p>
+	<button onclick="test()">question</button>
+	<input type="text" id="tAns" value="" onClick="this.select();"/>
+	<button onclick="checkAns()">click</button>
+	<p id="pop"></p>
+	<p id="scores"></p>
+</body>
+</html>

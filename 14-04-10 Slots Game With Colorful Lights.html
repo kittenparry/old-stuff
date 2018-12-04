@@ -1,0 +1,308 @@
+<html>
+<head>
+<Title>Testimoni4</Title>
+<!--
+	slots game, with colorful lights.
+	10 april 2014 ce.
+-->
+<style type="text/css">
+	#gametable{
+	top:20px;
+	position:absolute;
+	left:50%;
+	}
+	.jackpot{
+	border: 2px solid black;
+	}
+	#payout{
+	border:1px solid black;
+	display: none;
+	position:relative;
+	left:15px;
+	}
+	#slotsTable{
+	display: inline-block;
+	}
+	#lightsBottom{
+	position:relative;
+	left:20px;
+	color:white;
+	}
+	#lightsLeft{
+	display: inline-block;
+	position:relative;
+	color:white;
+	}
+	#lightsRight{
+	display: inline-block;
+	color:white;
+	}
+</style>
+<script type="text/javascript">
+	var Slots = new Array("7", "K", "R", "O", "A", "L");
+	var money = 100;
+	function putMoney(){
+		var bet1 = document.getElementById("text_bet").value;
+		var maxbet = 200;
+		var bet = (bet1 >0 && bet1 <= maxbet ? bet1 : maxbet);
+		if (money < bet){
+			document.getElementById("sp_mess").innerHTML = "Not enough money!";
+		}else{
+			money = money - bet
+			document.getElementById("sp_money").innerHTML = money;
+			roll(bet);
+		}
+	}
+	function roll(bb){
+		var bet2 = bb;
+		var A = Math.floor(Math.random()*Slots.length);
+		var B = Math.floor(Math.random()*Slots.length);
+		var C = Math.floor(Math.random()*Slots.length);
+		document.getElementById("sp_A").innerHTML = Slots[A];
+		document.getElementById("sp_B").innerHTML = Slots[B];
+		document.getElementById("sp_C").innerHTML = Slots[C];
+		equal(A, B, C);
+		check(A, B, C, bet2);
+	}
+	function equal(A, B, C){
+		document.getElementById("sp_1").innerHTML = Slots[upR(A)];
+		document.getElementById("sp_4").innerHTML = Slots[belR(A)];
+		document.getElementById("sp_2").innerHTML = Slots[upR(B)];
+		document.getElementById("sp_5").innerHTML = Slots[belR(B)];
+		document.getElementById("sp_3").innerHTML = Slots[upR(C)];
+		document.getElementById("sp_6").innerHTML = Slots[belR(C)];
+	}
+	function upR(x){
+		return ((x-1)>=0?(x-1):(Slots.length-1));
+	}
+	function belR(x){
+		return ((x+1)<=(Slots.length-1)?(x+1):0);
+	}
+	function check(A, B, C, bet){
+		var res = "" + Slots[A] + Slots[B] + Slots[C];
+		switch(res){
+			case "777":
+				document.getElementById("sp_money").innerHTML = money + " + " + (bet * 35);
+				money += (bet * 35);
+				waitMoney();
+				win(bet*35);break;
+			case "LLL":
+				document.getElementById("sp_money").innerHTML = money + " + " + (bet * 30);
+				money += (bet * 30);
+				waitMoney();
+				win(bet*30);break;
+			case "KKK":
+				document.getElementById("sp_money").innerHTML = money + " + " + (bet * 25);
+				money += (bet * 25);
+				waitMoney();
+				win(bet*25);break;
+			case "RRR":
+				document.getElementById("sp_money").innerHTML = money + " + " + (bet * 17);
+				money += (bet * 17);
+				waitMoney();
+				win(bet*17);break;
+			case "AAA":
+				document.getElementById("sp_money").innerHTML = money + " + " + (bet * 15);
+				money += (bet * 15);
+				waitMoney();
+				win(bet*15);break;
+			default:
+				var Os = 0;
+				if(Slots[A]=="O")
+					Os += 1;
+				if(Slots[B]=="O")
+					Os += 1;
+				if(Slots[C]=="O")
+					Os += 1;
+				switch(Os){
+					case 1:
+						document.getElementById("sp_money").innerHTML = money + " + " + (bet * 2);
+						money += (bet * 2);
+						waitMoney();
+						win(bet*2);break;
+					case 2:
+						document.getElementById("sp_money").innerHTML = money + " + " + (bet * 5);
+						money += (bet * 5);
+						waitMoney();
+						win(bet*5);break;
+					case 3:
+						document.getElementById("sp_money").innerHTML = money + " + " + (bet * 10);
+						money += (bet * 10);
+						waitMoney();
+						win(bet*10);break;
+					default:
+						document.getElementById("sp_mess").innerHTML = "Better luck next time!";
+				}
+		}
+	}
+	function waitMoney(){
+		setTimeout(function(){document.getElementById("sp_money").innerHTML = money;}, 500); //1k is 1 second
+	}
+	function win(bet){
+		document.getElementById("sp_mess").innerHTML = "Yey! You won " + bet + "!";
+		colors();
+	}
+	function colors(){ //red, green, yellow, magenta, blue
+		var colors = new Array("red", "green", "yellow", "magenta", "blue");
+		var borderColors = new Array("yellow", "magenta", "blue", "red", "green");
+		var lights = new Array("l1", "l2", "l3", "l4", "l5", "l6", "l7",
+			"l8", "l9", "l10", "l11", "l12", "l13", "l14", "l15");
+		for(var i=0; i<15; i++){
+			document.getElementById(lights[i]).style.color=colors[
+				(i<colors.length?i:(i<(colors.length+5)?(i-5):(i<(colors.length+10)?(i-10):0)))];
+
+			document.getElementById(lights[i]).style.borderColor=borderColors[
+				(i<colors.length?i:(i<(colors.length+5)?(i-5):(i<(colors.length+10)?(i-10):0)))];
+		}
+		setTimeout(function(){
+			for(var i=0; i<15; i++){
+				document.getElementById(lights[i]).style.color="white";
+				document.getElementById(lights[i]).style.borderColor="grey";
+		}
+		}, 1000);
+	}
+</script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
+<script>
+$(document).ready(function(){
+  $("#butt_payout").click(function(){
+    $("#payout").toggle(350);
+  });
+});
+</script>
+</head>
+<body>
+<div id="gametable">
+<table id="lightsLeft" border="1">
+	<tr>
+		<td id="l1">*</td>
+	</tr>
+	<tr>
+		<td id="l2">*</td>
+	</tr>
+	<tr>
+		<td id="l3">*</td>
+	</tr>
+	<tr>
+		<td id="l4">*</td>
+	</tr>
+	<tr>
+		<td id="l5">*</td>
+	</tr>
+</table>
+<table id="slotsTable" border="1">
+	<tr>
+		<th colspan="5">Slots</th>
+	</tr>
+	<tr>
+		<th colspan="5"></th>
+	</tr>
+	<tr>
+		<td></td>
+		<td><span id="sp_1">L</span></td>
+		<td><span id="sp_2">L</span></td>
+		<td><span id="sp_3">L</span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="jackpot"><span id="sp_A">7</span></td>
+		<td class="jackpot"><span id="sp_B">7</span></td>
+		<td class="jackpot"><span id="sp_C">7</span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><span id="sp_4">K</span></td>
+		<td><span id="sp_5">K</span></td>
+		<td><span id="sp_6">K</span></td>
+		<td></td>
+	</tr>
+</table>
+<table id="lightsRight" border="1">
+	<tr>
+		<td id="l15">*</td>
+	</tr>
+	<tr>
+		<td id="l14">*</td>
+	</tr>
+	<tr>
+		<td id="l13">*</td>
+	</tr>
+	<tr>
+		<td id="l12">*</td>
+	</tr>
+	<tr>
+		<td id="l11">*</td>
+	</tr>
+</table>
+<br/>
+<table id="lightsBottom" border="1">
+	<tr>
+		<td id="l6">*</td>
+		<td id="l7">*</td>
+		<td id="l8">*</td>
+		<td id="l9">*</td>
+		<td id="l10">*</td>
+	</tr>
+</table>
+<!-- -->
+<table style="text-align:center;">
+<tr><td>
+<input type="text" id="text_bet" style="width:30px;" maxlength="3"
+value="0"> / <span id="bet_max">200</span>
+</td></tr>
+<tr><td>
+(input 0 = 200)
+</tr></td>
+<tr><td>
+<button onClick="putMoney()">Bet!</button><br/>
+</td></tr>
+<tr><td>
+Money: <span id="sp_money">100</span><br/>
+</td></tr>
+<tr><td>
+#<span id="sp_mess">########</span><br/>
+</td></tr>
+<tr><td>
+<button id="butt_payout">Payout</button>
+</td></tr>
+</table>
+<!-- -->
+<table id="payout">
+	<tr>
+		<td>777</td>
+		<td>x35</td>
+	</tr>
+	<tr>
+		<td>LLL</td>
+		<td>x30</td>
+	</tr>
+	<tr>
+		<td>KKK</td>
+		<td>x25</td>
+	</tr>
+	<tr>
+		<td>RRR</td>
+		<td>x17</td>
+	</tr>
+	<tr>
+		<td>AAA</td>
+		<td>x15</td>
+	</tr>
+	<tr>
+		<td>OOO</td>
+		<td>x10</td>
+	</tr>
+	<tr>
+		<td>OO</td>
+		<td>x5</td>
+	</tr>
+	<tr>
+		<td>O</td>
+		<td>x2</td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

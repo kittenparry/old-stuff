@@ -1,0 +1,198 @@
+<html>
+<head>
+<title>Katakana Practice</title>
+<!--
+	japanese katakana quiz.
+	10 august 2014 ce.
+	//
+	# INSTRUCTIONS
+	# copy the code to your text editor and save it as .html
+	# open the file with your favorite browser
+	# ???
+	# profit.
+	//
+	# imgs taken from wikipedia and uploaded to imgur.
+-->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
+<script type="text/javascript">
+	//46 characters
+	var katakana = new Array("a", "i", "u", "e", "o",
+		"ka", "ki", "ku", "ke", "ko",
+		"sa", "shi", "su", "se", "so",
+		"ta", "chi", "tsu", "te", "to",
+		"na", "ni", "nu", "ne", "no",
+		"ha", "hi", "fu", "he", "ho",
+		"ma", "mi", "mu", "me", "mo",
+		"ya", "yu", "yo",
+		"ra", "ri", "ru", "re", "ro",
+		"wa", "wo", "n");
+	var imgUrls = new Array(
+	"http://i.imgur.com/QE7AQpd.png",
+	"http://i.imgur.com/FTLTw4N.png",
+	"http://i.imgur.com/NAsHqas.png",
+	"http://i.imgur.com/af6g3aD.png",
+	"http://i.imgur.com/9WMRCPv.png",
+	//ka
+	"http://i.imgur.com/ldxNMaR.png",
+	"http://i.imgur.com/VhCmGyB.png",
+	"http://i.imgur.com/CSaZUQv.png",
+	"http://i.imgur.com/SAb7gHj.png",
+	"http://i.imgur.com/UObdanw.png",
+	//sa
+	"http://i.imgur.com/y2B74gx.png",
+	"http://i.imgur.com/RM4OHIh.png",
+	"http://i.imgur.com/frHpcV7.png",
+	"http://i.imgur.com/vAGQcbV.png",
+	"http://i.imgur.com/P8ZgbQD.png",
+	//ta
+	"http://i.imgur.com/whXdJhQ.png",
+	"http://i.imgur.com/FPIRURF.png",
+	"http://i.imgur.com/9eqGj7l.png",
+	"http://i.imgur.com/iaIMkxz.png",
+	"http://i.imgur.com/eZPTQdG.png",
+	//na
+	"http://i.imgur.com/Yo4ZjBy.png",
+	"http://i.imgur.com/GQSuCry.png",
+	"http://i.imgur.com/73SckDG.png",
+	"http://i.imgur.com/k5Hqd7R.png",
+	"http://i.imgur.com/d55L4iW.png",
+	//ha
+	"http://i.imgur.com/6EAOslE.png",
+	"http://i.imgur.com/VeypDNG.png",
+	"http://i.imgur.com/9RXKrcM.png",
+	"http://i.imgur.com/7l8A79h.png",
+	"http://i.imgur.com/kmkxOaw.png",
+	//ma
+	"http://i.imgur.com/2GRPzWx.png",
+	"http://i.imgur.com/K1Gjhpp.png",
+	"http://i.imgur.com/MonKYhz.png",
+	"http://i.imgur.com/t8BoOC2.png",
+	"http://i.imgur.com/Z8dBpd6.png",
+	//ya
+	"http://i.imgur.com/QjkHf35.png",
+	"http://i.imgur.com/L9GZYJw.png",
+	"http://i.imgur.com/xvtE7FG.png",
+	//ra
+	"http://i.imgur.com/UBxrnz2.png",
+	"http://i.imgur.com/n7q4yf5.png",
+	"http://i.imgur.com/DUQV6ou.png",
+	"http://i.imgur.com/lfs1Xec.png",
+	"http://i.imgur.com/R7cMdBp.png",
+	//wa
+	"http://i.imgur.com/8KB8wzs.png",
+	"http://i.imgur.com/7CeMjkV.png",
+	"http://i.imgur.com/v5TrWIY.png"
+	);
+	var cAns = 0;
+	var rights = 0;
+	var totals = 0;
+	function begin(){
+		var rand = Math.floor(Math.random()*katakana.length);
+		document.getElementById("kat").src=imgUrls[rand];
+		drawAns(rand);
+		setAns(rand);
+	}
+	function drawAns(x){
+		document.getElementById("answers").innerHTML="";
+		document.getElementById("answers2").innerHTML="";
+		var ansPool = new Array();
+		var rightAns = Math.floor(Math.random()*4);
+		var b1 = Math.floor(Math.random()*katakana.length);
+		while(b1 == x){
+			b1 = Math.floor(Math.random()*katakana.length);
+		}
+		var b2 = Math.floor(Math.random()*katakana.length);
+		while(b2 == b1 || b2 == x){
+			b2 = Math.floor(Math.random()*katakana.length);
+		}
+		var b3 = Math.floor(Math.random()*katakana.length);
+		while(b3 == b2 || b3 == b1 || b3 == x){
+			b3 = Math.floor(Math.random()*katakana.length);
+		}
+		ansPool[rightAns] = katakana[x];
+		if(ansPool[rightAns]==ansPool[0]){
+			ansPool[1] = katakana[b1];
+			ansPool[2] = katakana[b2];
+			ansPool[3] = katakana[b3];
+		}else if(ansPool[rightAns]==ansPool[1]){
+			ansPool[0] = katakana[b1];
+			ansPool[2] = katakana[b2];
+			ansPool[3] = katakana[b3];
+		}else if(ansPool[rightAns]==ansPool[2]){
+			ansPool[1] = katakana[b1];
+			ansPool[0] = katakana[b2];
+			ansPool[3] = katakana[b3];
+		}else{
+			ansPool[1] = katakana[b1];
+			ansPool[2] = katakana[b2];
+			ansPool[0] = katakana[b3];
+		}
+		$("#answers").append("<td><center><button onClick='checkAns(0)' id='chosen0'>"+ ansPool[0] +"</button></center></td>");
+		$("#answers").append("<td><center><button onClick='checkAns(1)' id='chosen1'>"+ ansPool[1] +"</button></center></td>");
+		$("#answers2").append("<td><center><button onClick='checkAns(2)' id='chosen2'>"+ ansPool[2] +"</button></center></td>");
+		$("#answers2").append("<td><center><button onClick='checkAns(3)' id='chosen3'>"+ ansPool[3] +"</button></center></td>");
+	}
+	function setAns(x){
+		cAns = x;
+	}
+	var clicked = false;
+	function checkAns(num){
+		if(clicked){
+		}else{
+		clicked = true;
+		selectedAns = document.getElementById("chosen" + num).innerHTML;
+		theAns = katakana[cAns];
+
+		if(selectedAns == theAns){
+			document.getElementById("msg").innerHTML= "Correct!"
+			rights++;
+			setTimeout(function(){
+				document.getElementById("msg").innerHTML="";
+				clicked = false;
+				begin();
+			}, 700);
+		}else{
+			document.getElementById("msg").innerHTML= "Nope. It's <strong>" + theAns + "</strong>";
+			setTimeout(function(){
+				document.getElementById("msg").innerHTML="";
+				clicked = false;
+				begin();
+			}, 1000);
+		}
+		totals++;
+		document.getElementById("rAns").innerHTML=rights;
+		document.getElementById("tAns").innerHTML=totals;
+		}
+	}
+	function drawCheats(){
+		for(x=0;x<katakana.length;x++){
+			$("#cheatsheet").append("<tr><td><img height='25px' src='"+ imgUrls[x] +"'/></td><td>"+ katakana[x] +"</td></tr>");
+		}
+	}
+	$(document).ready(function(){
+		$("#sheetbutt").click(function(){
+			$("#cheatdiv").toggle(350);
+		});
+	});
+</script>
+</head>
+<body style="position:absolute;left:45%;">
+<table border="1" style="float:left;">
+<tr><th colspan="2" style="background-color:#009999; color:#fff;">Katakana Practice</th></tr>
+<tr><td colspan="2"><center><img id="kat" src="http://i.imgur.com/k5Hqd7R.png"/></center></td></tr>
+<tr id="answers"></tr>
+<tr id="answers2"></tr>
+<tr><td colspan="2"><center>Score: <span id="rAns">0</span> / <span id="tAns">0</span></center></td></tr>
+<tr><td colspan="2"><center><span id="msg"></span></center></td></tr>
+</table>
+<div id="cheatdiv" style="border:1px solid black;height:205px;width:73px;overflow-y:scroll;display:none;float:left;">
+<table id="cheatsheet">
+</table>
+</div>
+<br/><button id="sheetbutt">Katakana Sheet</button>
+<script type="text/javascript">
+	begin();
+	drawCheats();
+</script>
+</body>
+</html>

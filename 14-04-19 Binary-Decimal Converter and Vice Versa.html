@@ -1,0 +1,84 @@
+<html>
+<head>
+<Title>Testimoni7</Title>
+<!--
+	binary-decimal converter and vice versa.
+	19 april 2014 ce.
+-->
+<script type="text/javascript">
+	function decToBin(x){
+		var y = "";
+		while(x!=0){
+			y+=(x%2);
+			if(x%2!=0){
+				x/=2;
+				x-=0.5;
+			}else{
+				x/=2;
+			}
+		}
+		return y;
+	}
+	//
+	function rev(u){
+		var p = "";
+		for(h=1;h<=u.length;h++){
+			var t = u.length - h;
+			if(u.indexOf("1",t)==t){
+				p+=1;
+			}else{
+				p+=0;
+			}
+		}
+		return p;
+	}
+	//
+	function binToDec(u){
+		var p = 0;
+		for(h=1;h<=u.length;h++){
+			var t = u.length - h;
+			if(u.indexOf("1",t)==t){
+				p+=Math.pow(2,t);
+			}
+		}
+		return p;
+	}
+	//
+	function bTD(){
+		var z = document.getElementById("input").value;
+		var numsPresent = 0;
+		var a = new Array(2, 3, 4, 5, 6, 7, 8, 9);
+		for(var h=0;h<=7;h++){
+			if(z.indexOf(a[h])>=0){
+				numsPresent += 1;
+			}
+		}
+		if(numsPresent<=0){
+			var n1 = rev(z);
+			var num = binToDec(n1);
+			var ntext = "" + num;
+			document.getElementById("output").innerHTML = ntext;
+			document.getElementById("message").innerHTML = "";
+		}else{
+			document.getElementById("message").innerHTML = "please only put 1s or 0s for decimal conversion";
+		}
+	}
+	//
+	function dTB(){
+		var numy = document.getElementById("input").value;
+		var k = decToBin(numy);
+		var z = rev(k);
+		var ntext = "" + z;
+		document.getElementById("output").innerHTML = ntext;
+		document.getElementById("message").innerHTML = "";
+	}
+</script>
+</head>
+<body>
+	<input type="text" id="input"/>
+	<button onClick='bTD();'>to Decimal</button>
+	<button onClick='dTB();'>to Binary</button> ==>
+	<span id="output"></span><br/>
+	<span id="message"></span>
+</body>
+</html>
